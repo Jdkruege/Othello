@@ -3,15 +3,41 @@ using System.Collections;
 
 public class Tile : MonoBehaviour {
 
-    public GameObject piece;
+    public int i, j;
 
     public void OnMouseDown()
     {
-        GameObject spawnedPiece = Instantiate(piece);
+        if(Board.ValidMove(i, j))
+        {
+            GameObject spawnedPiece;
+            Master master = GameObject.Find("Master").GetComponent<Master>();
 
-        spawnedPiece.transform.position = this.transform.position;
+            if(Game.currentPlayer == Game.player.white)
+            {
+                spawnedPiece = Instantiate(master.whitePiece);
+            }
+            else
+            {
+                spawnedPiece = Instantiate(master.blackPiece);
+                
+            }
 
-        spawnedPiece.transform.Translate(new Vector3(0, 2, 0));
+            Vector3 pos = this.transform.position;
+
+            pos.y += 2;
+
+            spawnedPiece.transform.position = pos;
+
+            Game.flipPlayers();
+
+            gameObject.SetActive(false);
+        }
+
+        else
+        {
+            Debug.Log("Invalid Move");
+        }
+        
     }
 
 }
