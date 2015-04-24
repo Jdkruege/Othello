@@ -3,12 +3,9 @@ using System.Collections;
 
 public class Master : MonoBehaviour {
 
-    public GameObject whitePiece;
-    public GameObject blackPiece;
-
 	// Use this for initialization
 	void Start () {
-        Board.ResetBoard();
+        //Board.ResetBoard();
 	}
 	
 	// Update is called once per frame

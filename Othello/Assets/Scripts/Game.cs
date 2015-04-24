@@ -1,21 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class Game {
+public class Game : MonoBehaviour{
 
 
-    public static player currentPlayer;
-    public enum player {white, black};
+    public player currentPlayer;
+    public enum player {black, white};
 
-    public static void flipPlayers()
+    public void Start()
     {
-        if(currentPlayer == player.white)
+        currentPlayer = player.black;
+    }
+    
+    public void flipPlayers()
+    {
+        if(currentPlayer == player.black)
         {
-            currentPlayer = player.black;
+            currentPlayer = player.white;
         }
         else
         {
-            currentPlayer = player.white;
+            currentPlayer = player.black;
+        }
+    }
+
+    public bool IsBlacksTurn()
+    {
+        if(currentPlayer == player.black)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 

@@ -5,21 +5,26 @@ public class Tile : MonoBehaviour {
 
     public int i, j;
 
+    private GameObject info;
+
+    public void Start()
+    {
+        info = GameObject.Find("Info");
+    }
+
     public void OnMouseDown()
     {
-        if(Board.ValidMove(i, j))
+        if(info.GetComponent<BoardState>().ValidMove(i, j))
         {
             GameObject spawnedPiece;
-            Master master = GameObject.Find("Master").GetComponent<Master>();
 
-            if(Game.currentPlayer == Game.player.white)
+            if(info.GetComponent<Game>().IsBlacksTurn())
             {
-                spawnedPiece = Instantiate(master.whitePiece);
+                spawnedPiece = Instantiate(info.GetComponent<Resources>().blackPiece);
             }
             else
             {
-                spawnedPiece = Instantiate(master.blackPiece);
-                
+                spawnedPiece = Instantiate(info.GetComponent<Resources>().whitePiece); 
             }
 
             Vector3 pos = this.transform.position;
@@ -28,7 +33,10 @@ public class Tile : MonoBehaviour {
 
             spawnedPiece.transform.position = pos;
 
-            Game.flipPlayers();
+            info.GetComponent<Board>().PlacePiece(i, j, spawnedPiece);
+            info.GetComponent<BoardState>().PlacePiece(i, j);
+
+            info.GetComponent<Game>().flipPlayers();
 
             gameObject.SetActive(false);
         }

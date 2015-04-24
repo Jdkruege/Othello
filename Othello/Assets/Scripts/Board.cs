@@ -1,53 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class Board {
+public class Board : MonoBehaviour{
 
-    private static pieces[,] board;
-    public enum pieces {empty, white, black};
+    public GameObject[,] board;
 
-    public static void AvailableMoves()
+    public GameObject piece33;
+    public GameObject piece34;
+    public GameObject piece43;
+    public GameObject piece44;
+
+    public void Start()
     {
-
+        ResetBoard();
     }
 
-    public static bool ValidMove(int i, int j)
+    public void PlacePiece(int i, int j, GameObject toPlace)
     {
-        if(board[i, j] == pieces.empty)
-        {
-            if((i-1 >= 0) && (board[i - 1, j] != pieces.empty))
-            {
-                board[i, j] = pieces.white;
-                return true;
-            }
-            else if ((i+1 <= 7) && (board[i + 1, j] != pieces.empty))
-            {
-                board[i, j] = pieces.white;
-                return true;
-            }
-            else if ((j-1 >= 0) && (board[i, j - 1] != pieces.empty))
-            {
-                board[i, j] = pieces.white;
-                return true;
-            }
-            else if ((j+1 <= 7) && (board[i, j + 1] != pieces.empty))
-            {
-                board[i, j] = pieces.white;
-                return true;
-            }
-        }
-
-        return false;
+        board[i, j] = toPlace;
     }
 
-    public static void ResetBoard()
+    public void FlipPiece(int i, int j)
     {
-        board = new pieces[8,8];
+        board[i, j].GetComponent<Animation>().Play();
+    }
 
-        board[3, 3] = pieces.black;
-        board[3, 4] = pieces.white;
-        board[4, 3] = pieces.white;
-        board[4, 4] = pieces.black;
+    public void ResetBoard()
+    {
+        board = new GameObject[8,8];
+
+        board[3, 3] = piece33;
+        board[3, 4] = piece34;
+        board[4, 3] = piece43;
+        board[4, 4] = piece44;
 
     }
 }
