@@ -22,7 +22,7 @@ public class Board : MonoBehaviour{
 
     public void FlipPiece(int i, int j)
     {
-        board[i, j].GetComponent<Animation>().Play();
+        board[i, j].transform.Rotate(0, 0 , 180);
     }
 
     public void ResetBoard()

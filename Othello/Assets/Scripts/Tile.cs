@@ -16,15 +16,11 @@ public class Tile : MonoBehaviour {
     {
         if(info.GetComponent<BoardState>().ValidMove(i, j))
         {
-            GameObject spawnedPiece;
+            GameObject spawnedPiece = Instantiate(info.GetComponent<Resources>().Piece);
 
             if(info.GetComponent<Game>().IsBlacksTurn())
             {
-                spawnedPiece = Instantiate(info.GetComponent<Resources>().blackPiece);
-            }
-            else
-            {
-                spawnedPiece = Instantiate(info.GetComponent<Resources>().whitePiece); 
+                spawnedPiece.transform.Rotate(0, 0, 180);
             }
 
             Vector3 pos = this.transform.position;
