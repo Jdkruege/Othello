@@ -18,6 +18,9 @@ public class Game : MonoBehaviour{
     public void Start()
     {
         currentPlayer = player.black;
+
+        AIEnabled = StaticInfo.AIEnabled;
+        depth = StaticInfo.AILevel;
     }
     
     public void Update()
