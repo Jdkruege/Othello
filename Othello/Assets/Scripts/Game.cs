@@ -23,6 +23,11 @@ public class Game : MonoBehaviour{
         {
             currentPlayer = player.black;
         }
+
+        if(GetComponent<BoardState>().AvailableMoves(IsBlacksTurn()).Count == 0)
+        {
+            flipPlayers();
+        }
     }
 
     public bool IsBlacksTurn()

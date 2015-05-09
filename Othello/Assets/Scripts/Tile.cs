@@ -14,11 +14,13 @@ public class Tile : MonoBehaviour {
 
     public void OnMouseDown()
     {
-        if(info.GetComponent<BoardState>().ValidMove(i, j))
+        bool isBlack = info.GetComponent<Game>().IsBlacksTurn();
+
+        if(info.GetComponent<BoardState>().ValidMove(i, j, isBlack))
         {
             GameObject spawnedPiece = Instantiate(info.GetComponent<Resources>().Piece);
 
-            if(info.GetComponent<Game>().IsBlacksTurn())
+            if(isBlack)
             {
                 spawnedPiece.transform.Rotate(0, 0, 180);
             }
@@ -30,7 +32,7 @@ public class Tile : MonoBehaviour {
             spawnedPiece.transform.position = pos;
 
             info.GetComponent<Board>().PlacePiece(i, j, spawnedPiece);
-            info.GetComponent<BoardState>().PlacePiece(i, j);
+            info.GetComponent<BoardState>().PlacePiece(i, j, isBlack);
 
             info.GetComponent<Game>().flipPlayers();
 

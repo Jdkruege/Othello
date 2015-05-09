@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class BoardState : MonoBehaviour {
 
-    private Pieces[,] board;
+    public Pieces[,] board;
     public enum Pieces { empty, white, black };
 
     public int whitePieces = 2, blackPieces = 2;
@@ -14,11 +14,38 @@ public class BoardState : MonoBehaviour {
         ResetBoard();
     }
 
-    // Short Circuit evaluation is fun.
-    public bool ValidMove(int i, int j)
+    public ArrayList AvailableMoves(bool isBlack)
     {
-        bool isBlack = GetComponent<Game>().IsBlacksTurn();
+        ArrayList arr = new ArrayList();
 
+        for(int i = 0; i < 8; i++)
+        {
+            for(int j = 0; j < 8; j++)
+            {
+                if ((board[i, j] == Pieces.empty) &&                    // Check if the position is even empty, if not we are already done
+                   (
+                   (i - 1 > -1 && (board[i - 1, j] != Pieces.empty)) ||  // North
+                   (j + 1 < 8 && (board[i, j + 1] != Pieces.empty)) ||  // East
+                   (i + 1 < 8 && (board[i + 1, j] != Pieces.empty)) ||  // South
+                   (j - 1 > -1 && (board[i, j - 1] != Pieces.empty)) ||  // West
+
+                   (i - 1 > -1 && j + 1 < 8 && (board[i - 1, j + 1] != Pieces.empty))  ||        // NE
+                   (i + 1 < 8 && j + 1 < 8 && (board[i + 1, j + 1] != Pieces.empty))  ||        // SE
+                   (i + 1 < 8 && j - 1 > -1 && (board[i + 1, j] != Pieces.empty))      ||        // SW
+                   (i - 1 > -1 && j - 1 > -1 && (board[i - 1, j - 1] != Pieces.empty))) &&        // NW
+
+                   ValidMove(i, j, isBlack))                                                             // If any of those were true, check if the move would be valid
+                {
+                    arr.Add(new Vector2(i, j));
+                }
+            }
+        }
+            return arr;
+    }
+
+    // Short Circuit evaluation is fun.
+    public bool ValidMove(int i, int j, bool isBlack)
+    {
         return ((board[i, j] == Pieces.empty)   &&
                 (CheckNorth(i, j, isBlack)      ||
                 CheckEast(i, j, isBlack)        ||
@@ -266,9 +293,8 @@ public class BoardState : MonoBehaviour {
     }
     #endregion
 
-    public void PlacePiece(int i, int j)
+    public void PlacePiece(int i, int j, bool isBlack)
     {
-        bool isBlack = gameObject.GetComponent<Game>().IsBlacksTurn();
         if(isBlack)
         {
             board[i, j] = Pieces.black;
