@@ -7,6 +7,8 @@ public class BoardState : MonoBehaviour {
     public Pieces[,] board;
     public enum Pieces { empty, white, black };
 
+    public bool AIEnabled;
+
     public int whitePieces = 2, blackPieces = 2;
 
     public void Start()
@@ -202,8 +204,8 @@ public class BoardState : MonoBehaviour {
         {
             if (isBlack && board[i, j] == Pieces.black) return;
             if (!isBlack && board[i, j] == Pieces.white) return;
-
-            GetComponent<Board>().FlipPiece(i, j);
+            
+            if(!AIEnabled) GetComponent<Board>().FlipPiece(i, j);
             FlipPiece(i, j);
         }
     }
@@ -215,7 +217,7 @@ public class BoardState : MonoBehaviour {
             if (isBlack && board[i, j] == Pieces.black) return;
             if (!isBlack && board[i, j] == Pieces.white) return;
 
-            GetComponent<Board>().FlipPiece(i, j);
+            if (!AIEnabled) GetComponent<Board>().FlipPiece(i, j);
             FlipPiece(i, j);
         }
     }
@@ -227,7 +229,7 @@ public class BoardState : MonoBehaviour {
             if (isBlack && board[i, j] == Pieces.black) return;
             if (!isBlack && board[i, j] == Pieces.white) return;
 
-            GetComponent<Board>().FlipPiece(i, j);
+            if (!AIEnabled) GetComponent<Board>().FlipPiece(i, j);
             FlipPiece(i, j);
         }
     }
@@ -239,7 +241,7 @@ public class BoardState : MonoBehaviour {
             if (isBlack && board[i, j] == Pieces.black) return;
             if (!isBlack && board[i, j] == Pieces.white) return;
 
-            GetComponent<Board>().FlipPiece(i, j);
+            if (!AIEnabled) GetComponent<Board>().FlipPiece(i, j);
             FlipPiece(i, j);
         }
     }
@@ -251,7 +253,7 @@ public class BoardState : MonoBehaviour {
             if (isBlack && board[i, j] == Pieces.black) return;
             if (!isBlack && board[i, j] == Pieces.white) return;
 
-            GetComponent<Board>().FlipPiece(i, j);
+            if (!AIEnabled) GetComponent<Board>().FlipPiece(i, j);
             FlipPiece(i, j);
         }
     }
@@ -263,7 +265,7 @@ public class BoardState : MonoBehaviour {
             if (isBlack && board[i, j] == Pieces.black) return;
             if (!isBlack && board[i, j] == Pieces.white) return;
 
-            GetComponent<Board>().FlipPiece(i, j);
+            if (!AIEnabled) GetComponent<Board>().FlipPiece(i, j);
             FlipPiece(i, j);
         }
     }
@@ -275,7 +277,7 @@ public class BoardState : MonoBehaviour {
             if (isBlack && board[i, j] == Pieces.black) return;
             if (!isBlack && board[i, j] == Pieces.white) return;
 
-            GetComponent<Board>().FlipPiece(i, j);
+            if (!AIEnabled) GetComponent<Board>().FlipPiece(i, j);
             FlipPiece(i, j);
         }
     }
@@ -287,7 +289,7 @@ public class BoardState : MonoBehaviour {
             if (isBlack && board[i, j] == Pieces.black) return;
             if (!isBlack && board[i, j] == Pieces.white) return;
 
-            GetComponent<Board>().FlipPiece(i, j);
+            if (!AIEnabled) GetComponent<Board>().FlipPiece(i, j);
             FlipPiece(i, j);
         }
     }
@@ -342,5 +344,25 @@ public class BoardState : MonoBehaviour {
         board[4, 3] = Pieces.black;
         board[4, 4] = Pieces.white;
 
+    }
+
+    public BoardState CreateCopy()
+    {
+        BoardState copy = Instantiate(GetComponent<BoardState>()); ;
+        
+        copy.ResetBoard();
+
+        for(int i = 0; i < 8; i++)
+        {
+            for(int j = 0; j < 8; j++)
+            {
+                copy.board[i, j] = board[i, j];
+            }
+        }
+
+        copy.whitePieces = whitePieces;
+        copy.blackPieces = blackPieces;
+
+        return copy;
     }
 }

@@ -18,25 +18,9 @@ public class Tile : MonoBehaviour {
 
         if(info.GetComponent<BoardState>().ValidMove(i, j, isBlack))
         {
-            GameObject spawnedPiece = Instantiate(info.GetComponent<Resources>().Piece);
+            SpawnPiece(isBlack);
 
-            if(isBlack)
-            {
-                spawnedPiece.transform.Rotate(0, 0, 180);
-            }
-
-            Vector3 pos = this.transform.position;
-
-            pos.y += 2;
-
-            spawnedPiece.transform.position = pos;
-
-            info.GetComponent<Board>().PlacePiece(i, j, spawnedPiece);
-            info.GetComponent<BoardState>().PlacePiece(i, j, isBlack);
-
-            info.GetComponent<Game>().flipPlayers();
-
-            gameObject.SetActive(false);
+            info.GetComponent<Game>().FlipPlayers();
         }
 
         else
@@ -44,6 +28,27 @@ public class Tile : MonoBehaviour {
             Debug.Log("Invalid Move");
         }
         
+    }
+
+    public void SpawnPiece(bool isBlack)
+    {
+        GameObject spawnedPiece = Instantiate(info.GetComponent<Resources>().Piece);
+
+        if (isBlack)
+        {
+            spawnedPiece.transform.Rotate(0, 0, 180);
+        }
+
+        Vector3 pos = this.transform.position;
+
+        pos.y += 0.5f;
+
+        spawnedPiece.transform.position = pos;
+
+        info.GetComponent<Board>().PlacePiece(i, j, spawnedPiece);
+        info.GetComponent<BoardState>().PlacePiece(i, j, isBlack);
+
+        gameObject.SetActive(false);
     }
 
 }
